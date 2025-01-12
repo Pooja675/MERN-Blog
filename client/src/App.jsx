@@ -1,13 +1,24 @@
-
+import {BrowserRouter, Route, Routes} from "react-router-dom"
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Dashboard from "./pages/Dashboard";
+import Projects from "./pages/Projects";
+import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
 
 function App() {
-  
-
   return (
-    <>
-     <h1 className="flex justify-center my-10 text-green-700 font-bold">Hello MERN Blog.....</h1>
-    </>
-  )
+    <BrowserRouter>
+      <Routes> 
+          <Route path="/" element={<Home/>} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/projects" element={<Projects/>} />
+          <Route path="/sign-in" element={<SignIn/>} />
+          <Route path="/sign-up" element={<SignUp/>} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
