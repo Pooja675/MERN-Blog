@@ -1,11 +1,13 @@
 const express = require("express")
 const connectDB = require("../config/database")
-const userRouter = require("./routes/user.route")
-
-
+const userRouter = require("./routes/user.route");
+const authRouter = require("./routes/auth.route");
 const app = express()
 
-app.use("/", userRouter);
+app.use(express.json())
+
+app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
 
 connectDB()
     .then(() => {
