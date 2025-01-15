@@ -58,7 +58,7 @@ const SignUp = () => {
             </span>{" "}
             Chronicles
           </Link>
-          <p className="text-base text-gray-800 mt-5 text-wrap text-left">
+          <p className="text-base text-gray-800 mt-5 text-wrap text-left  dark:text-white">
             WebDev Chronicles is your go-to destination for stories, tutorials,
             and the latest innovations in web development. Whether you're a
             beginner looking to learn the basics or an experienced developer
@@ -71,7 +71,7 @@ const SignUp = () => {
         <div className="flex-1">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div>
-              <Label value="Your username" />
+              <Label value="Your Username:" />
 
               <TextInput
                 id="userName"
@@ -82,7 +82,7 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <Label value="Your email" />
+              <Label value="Your Email:" />
 
               <TextInput
                 id="emailId"
@@ -92,7 +92,7 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <Label value="Your password" />
+              <Label value=" Your Password:" />
 
               <TextInput
                 id="password"
