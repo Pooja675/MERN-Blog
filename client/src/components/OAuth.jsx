@@ -20,14 +20,15 @@ const OAuth = () => {
           });
 
           try {
-            const resulstFromGoogle = await signInWithPopup(auth, provider)
+            const resultsFromGoogle = await signInWithPopup(auth, provider)
+            console.log(resultsFromGoogle)
             const res = await fetch("/api/auth/google", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    name: resulstFromGoogle.user.displayName,
-                    emailId:resulstFromGoogle.user.email,
-                    googlePhotoUrl: resulstFromGoogle.user.photoURL,
+                    name: resultsFromGoogle.user.displayName,
+                    emailId:resultsFromGoogle.user.email,
+                    googlePhotoUrl: resultsFromGoogle.user.photoURL,
 
                 }),
               });
