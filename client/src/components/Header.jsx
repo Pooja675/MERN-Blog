@@ -12,12 +12,12 @@ const Header = () => {
   const { currentUser } = useSelector((store) => store.user);
   const { theme } = useSelector((store) => store.theme);
   return (
-    <Navbar>
+    <Navbar className="border-b-2">
       <Link
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg">
+        <span className="px-2 py-1 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg ml-5">
           WebDev{" "}
         </span>{" "}
         Chronicles
@@ -47,7 +47,7 @@ const Header = () => {
             arrowIcon={false}
             inline
             label={
-              <Avatar alt="user" img={currentUser.profilePicture} rounded />
+              <Avatar alt="user" className="mr-5" img={currentUser.profilePicture} rounded />
             }
           >
             <Dropdown.Header>
@@ -64,7 +64,7 @@ const Header = () => {
           </Dropdown>
         ) : (
           <Link to="/sign-in">
-            <Button gradientDuoTone="purpleToBlue" outline>
+            <Button className="mr-5" gradientDuoTone="purpleToBlue" outline>
               Sign In
             </Button>
           </Link>
