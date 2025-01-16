@@ -95,7 +95,7 @@ const SignIn = () => {
                 <span className="pl-3">Loading...</span>
                 </>
               ) : (
-                'Sign up'
+                'Sign In'
               )}
             </Button>
             <OAuth/>
