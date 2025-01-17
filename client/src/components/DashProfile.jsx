@@ -2,6 +2,7 @@ import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 import {
   deleteUserFailure,
@@ -136,6 +137,16 @@ const DashProfile = () => {
         <Button type="submit" gradientDuoTone="purpleToBlue" outline>
           Update
         </Button>
+
+        {
+          currentUser.isAdmin && (
+            <Link to={'/create-post'}>
+            <Button className="w-full" type="button" gradientDuoTone="purpleToPink">
+              Create a post
+            </Button>
+            </Link>
+          )
+        }
       </form>
       <div className="flex justify-between text-red-500 mt-5">
         <span className="cursor-pointer" onClick={() => setShowModal(true)}>
