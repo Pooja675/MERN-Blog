@@ -53,7 +53,7 @@ const signin = async (req, res, next) => {
 
     const { password: pass, ...rest } = validUser._doc; //need to hide password
 
-    const token = jwt.sign({ _id: validUser._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ _id: validUser._id, isAdmin: validUser.isAdmin }, process.env.JWT_SECRET);
 
     res
       .status(200)
@@ -94,7 +94,7 @@ const google = async (req, res, next) => {
       });
 
       await newUser.save()
-      const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET);
+      const token = jwt.sign({ _id: newUser._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET);
       const { password, ...rest } = newUser._doc; //we have separated password
       res
         .status(200)
