@@ -1,16 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Button, Select, Textarea, TextInput } from "flowbite-react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import {useSelector} from "react-redux"
 
-const CreatePost = () => {
+const UpdatePost = () => {
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
-  
+  const { postId } = useParams();
+  const {currentUser} = useSelector((store) => store.user)
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   //console.log(formData);
+
+  const fetchPost = async () => {
+    try {
+      const res = await fetch(`/api/post/getposts?postId=${postId}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log(data.message);
+        setPublishError(error.message);
+        return;
+      }
+      if (res.ok) {
+        setPublishError(null);
+        setFormData(data.posts[0]);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchPost();
+  }, [postId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,8 +47,8 @@ const CreatePost = () => {
     }
 
     try {
-      const res = await fetch("/api/post/create", {
-        method: 'POST',
+      const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
@@ -36,7 +61,7 @@ const CreatePost = () => {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(`/post/${data.slug}`)
+        navigate(`/post/${data.slug}`);
       }
     } catch (error) {
       setPublishError("Something went wrong.");
@@ -44,7 +69,7 @@ const CreatePost = () => {
   };
   return (
     <div className="p-3 max-w-3xl  mx-auto min-h-screen">
-      <h1 className="text-center text-3xl my-7 font-semibold">Create a post</h1>
+      <h1 className="text-center text-3xl my-7 font-semibold">Update a post</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
@@ -53,11 +78,16 @@ const CreatePost = () => {
             required
             id="title"
             className="flex-1"
-            onChange={(e) => setFormData({...formData, title: e.target.value})}
-            
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
+            value={formData.title}
           />
           <Select
-            onChange={(e) => setFormData({...formData, category: e.target.value})}
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+            value={formData.category}
           >
             <option value="uncategorized">Select a Category</option>
             <option value="javascript">JavaScript</option>
@@ -73,9 +103,13 @@ const CreatePost = () => {
             type="text"
             placeholder="PhotoUrl"
             //defaultValue={currentUser.profilePicture}
-            onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
+            onChange={(e) =>
+              setFormData({ ...formData, imageUrl: e.target.value })
+            }
           />
+          
         </div>
+
         {formData.imageUrl && (
           <img
             src={formData.imageUrl}
@@ -98,15 +132,22 @@ const CreatePost = () => {
           required
           rows={4}
           className="h-72 mb-6"
-          onChange={(e) => setFormData({...formData, content:e.target.value})}
+          onChange={(e) =>
+            setFormData({ ...formData, content: e.target.value })
+          }
+          value={formData.content}
         />
         <Button type="submit" gradientDuoTone="purpleToPink">
-          Publish
+          Update Post
         </Button>
-        {publishError && <Alert className="mt-3" color="failure">{publishError}</Alert>}
+        {publishError && (
+          <Alert className="mt-3" color="failure">
+            {publishError}
+          </Alert>
+        )}
       </form>
     </div>
   );
 };
 
-export default CreatePost;
+export default UpdatePost;

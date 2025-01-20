@@ -102,7 +102,7 @@ const DashPosts = () => {
                       <img
                         src={post.imageUrl}
                         alt={post.title}
-                        className="w-20 h-15 object-cover bg-gray-500"
+                        className="w-20 h-20 object-cover bg-gray-500"
                       />
                     </Link>
                   </Table.Cell>
