@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 const CreatePost = () => {
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
+  
+
   const navigate = useNavigate()
   //console.log(formData);
 
@@ -74,7 +76,7 @@ const CreatePost = () => {
             onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
           />
         </div>
-        <ReactQuill
+        {/* <ReactQuill
           theme="snow"
           placeholder="Write Something...."
           className="h-72 mb-12"
@@ -82,19 +84,19 @@ const CreatePost = () => {
           onChange={(value) =>
             setFormData({ ...formData, content:value })
           }
-        />
-        {/* <Textarea
+        /> */}
+        <Textarea
           id="content"
           placeholder="Description"
           required
           rows={4}
-          className="h-72 mb-12"
+          className="h-72 mb-6"
           onChange={(e) => setFormData({...formData, content:e.target.value})}
-        /> */}
+        />
         <Button type="submit" gradientDuoTone="purpleToPink">
           Publish
         </Button>
-        {publishError && <Alert className="mt-5" color="failure">{publishError}</Alert>}
+        {publishError && <Alert className="mt-3" color="failure">{publishError}</Alert>}
       </form>
     </div>
   );
