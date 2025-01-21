@@ -83,23 +83,24 @@ const CreatePost = () => {
             className='w-full h-72 object-cover'
           />
         )}
-        {/* <ReactQuill
+        <ReactQuill
           theme="snow"
+          id="content"
           placeholder="Write Something...."
           className="h-72 mb-12"
           required
           onChange={(value) =>
             setFormData({ ...formData, content:value })
           }
-        /> */}
-        <Textarea
+        />
+        {/* <Textarea
           id="content"
           placeholder="Description"
           required
           rows={4}
           className="h-72 mb-6"
           onChange={(e) => setFormData({...formData, content:e.target.value})}
-        />
+        /> */}
         <Button type="submit" gradientDuoTone="purpleToPink">
           Publish
         </Button>

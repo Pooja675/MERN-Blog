@@ -3,55 +3,83 @@ import { Alert, Button, Select, Textarea, TextInput } from "flowbite-react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate, useParams } from "react-router-dom";
-import {useSelector} from "react-redux"
+import { useSelector } from "react-redux";
 
 const UpdatePost = () => {
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
   const { postId } = useParams();
-  const {currentUser} = useSelector((store) => store.user)
+  const { currentUser } = useSelector((store) => store.user);
 
   const navigate = useNavigate();
+
   //console.log(formData);
 
-  const fetchPost = async () => {
-    try {
-      const res = await fetch(`/api/post/getposts?postId=${postId}`);
-      const data = await res.json();
+  // const fetchPost = async () => {
+  //   try {
+  //     const res = await fetch(`/api/post/getposts?postId=${postId}`);
+  //     const data = await res.json();
 
-      if (!res.ok) {
-        console.log(data.message);
-        setPublishError(error.message);
-        return;
-      }
-      if (res.ok) {
-        setPublishError(null);
-        setFormData(data.posts[0]);
-      }
+  //     if (!res.ok) {
+  //       console.log(data.message);
+  //       setPublishError(error.message);
+  //       return;
+  //     }
+  //     if (res.ok) {
+  //       setPublishError(null);
+  //       setFormData(data.posts[0]);
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+
+  useEffect(() => {
+    try {
+      const fetchPost = async () => {
+        const res = await fetch(`/api/post/getposts?postId=${postId}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          console.log(data.message);
+          setPublishError(error.message);
+          return;
+        }
+        if (res.ok) {
+          setPublishError(null);
+          setFormData(data.posts[0]);
+        }
+      };
+      console.log("Received postId:", postId);
+      fetchPost();
     } catch (error) {
       console.log(error.message);
     }
-  };
-
-  useEffect(() => {
-    fetchPost();
   }, [postId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { title, content } = formData;
-    if (!title || !content) {
-      setPublishError("Please provide all required fields: title and content.");
-      return;
-    }
+    // const { title, content } = formData;
+    // if (!title || !content) {
+    //   setPublishError("Please provide all required fields: title and content.");
+    //   return;
+    // }
+
+    // if (!_id) {
+    //   setPublishError("Post ID is missing. Cannot update the post.");
+    //   return;
+    // }
 
     try {
-      const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `/api/post/updatepost/${postId}/${currentUser._id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await res.json();
 
       if (!res.ok) {
@@ -67,6 +95,7 @@ const UpdatePost = () => {
       setPublishError("Something went wrong.");
     }
   };
+
   return (
     <div className="p-3 max-w-3xl  mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Update a post</h1>
@@ -74,6 +103,7 @@ const UpdatePost = () => {
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text "
+            value={formData.title}
             placeholder="Title"
             required
             id="title"
@@ -81,7 +111,6 @@ const UpdatePost = () => {
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }
-            value={formData.title}
           />
           <Select
             onChange={(e) =>
@@ -107,26 +136,25 @@ const UpdatePost = () => {
               setFormData({ ...formData, imageUrl: e.target.value })
             }
           />
-          
         </div>
 
         {formData.imageUrl && (
           <img
             src={formData.imageUrl}
-            alt='upload'
-            className='w-full h-72 object-cover'
+            alt="upload"
+            className="w-full h-72 object-cover"
           />
         )}
-        {/* <ReactQuill
+        <ReactQuill
           theme="snow"
+          id="content"
+          value={formData.content}
           placeholder="Write Something...."
           className="h-72 mb-12"
           required
-          onChange={(value) =>
-            setFormData({ ...formData, content:value })
-          }
-        /> */}
-        <Textarea
+          onChange={(value) => setFormData({ ...formData, content: value })}
+        />
+        {/* <Textarea
           id="content"
           placeholder="Description"
           required
@@ -136,7 +164,7 @@ const UpdatePost = () => {
             setFormData({ ...formData, content: e.target.value })
           }
           value={formData.content}
-        />
+        /> */}
         <Button type="submit" gradientDuoTone="purpleToPink">
           Update Post
         </Button>
