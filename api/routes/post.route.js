@@ -2,7 +2,7 @@ const express = require("express")
 const verifyUser = require("../utils/verifyUser");
 const { create, getposts, deletepost, updatepost } = require("../controllers/post.controller");
 
-const postRouter = express()
+const postRouter = express.Router()
 
 postRouter.post("/create", verifyUser, create)
 postRouter.get("/getposts", getposts)
