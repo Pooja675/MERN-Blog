@@ -1,32 +1,40 @@
 const Comment = require("../models/comment.model");
 const errorHandler = require("../utils/error");
 
-const createComment = async(req, res, next) => {
+const createComment = async (req, res, next) => {
+  try {
+    const { content, postId, userId } = req.body;
 
-        try {
+    if (userId !== req.user._id) {
+      return next(
+        errorHandler(403, "You are not allowed to create this comment")
+      );
+    }
 
-            const {content, postId, userId} = req.body;
+    const newComment = new Comment({
+      content,
+      postId,
+      userId,
+    });
 
-            if(userId !== req.user._id){
-                return next(errorHandler(403, "You are not allowed to create this comment"))
-            }
+    await newComment.save();
 
-            const newComment = new Comment({
-                    content,
-                    postId,
-                    userId,
-            })
+    res.status(200).json(newComment);
+  } catch (error) {}
+};
 
-            await newComment.save()
-
-            res.status(200).json(newComment)
-            
-        } catch (error) {
-            
-        }
-
-}
+const getPostComments = async (req, res, next) => {
+  try {
+    const comments = await Comment.find({ postId: req.params.postId }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(comments)
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
-    createComment,
-}
+  createComment,
+  getPostComments,
+};
