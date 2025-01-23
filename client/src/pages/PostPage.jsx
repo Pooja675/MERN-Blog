@@ -43,7 +43,7 @@ const PostPage = () => {
             try {
 
                 const fetchRecentPost = async() => {
-                    const res = await fetch(`/api/post/getposts?limit=4`)
+                    const res = await fetch(`/api/post/getposts?limit=3`)
                     const data = await res.json()
 
                     if(res.ok){
@@ -89,7 +89,7 @@ const PostPage = () => {
 
         <div className='flex flex-col justify-center items-center mb--5'>
             <h1 className='text-xl mt-5'>Recent articles</h1>
-            <div className='flex flex-wrap gap-5 mt-5 justify-center'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-5 mt-5'>
                 {recentposts && recentposts.map((post) => (
                     <PostCard key={post._id} post={post}/>
                 ))}
