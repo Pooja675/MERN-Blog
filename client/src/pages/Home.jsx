@@ -19,7 +19,7 @@ const Home = () => {
     <div>
       <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto'>
         <h1 className='text-3xl font-bold lg:text-5xl'>Mastering Responsive Design: Tips and Tricks for Modern Websites</h1>
-        <p className='text-gray-700 text-6xl sm:text-sm dark:text-white'>Web Dev Chronicles: Your go-to destination for all things web development! Explore insights, tips, and trends in 
+        <p className='text-gray-700 text-xl sm:text-sm dark:text-white'>Web Dev Chronicles: Your go-to destination for all things web development! Explore insights, tips, and trends in 
           front-end, back-end, and full-stack technologies. From mastering the basics to diving deep into advanced frameworks, 
           we empower developers to create modern, responsive, and efficient web solutions.</p>
           <Link to="/search" className='text-xs sm:text-sm text-teal-500 font-bold hover:underline'>
