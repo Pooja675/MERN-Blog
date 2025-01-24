@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const postRouter = require("./routes/post.route");
 const commentRouter = require("./routes/comment.route");
 const dotenv = require("dotenv")
+const PORT = process.env.PORT || 5555;
 
 const path = require("path");
 const app = express();
@@ -24,8 +25,8 @@ monggose
 app.use(express.json());
 app.use(cookieParser());
 
-app.listen("5555", () => {
-    console.log("Server is running on port 5555!!");
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}!!`);
   });
 
 app.use("/api/user", userRouter);
@@ -33,11 +34,12 @@ app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(express.static(path.resolve(__dirname, "client", "dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+  res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
 });
+
 
 
 app.use((err, req, res, next) => {
