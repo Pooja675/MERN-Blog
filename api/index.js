@@ -1,6 +1,5 @@
 const express = require("express");
 const monggose = require("mongoose");
-//const connectDB = require("./config/database")
 const userRouter = require("./routes/user.route");
 const authRouter = require("./routes/auth.route");
 const cookieParser = require("cookie-parser");
