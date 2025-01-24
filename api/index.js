@@ -5,15 +5,25 @@ const authRouter = require("./routes/auth.route");
 const cookieParser = require("cookie-parser");
 const postRouter = require("./routes/post.route");
 const commentRouter = require("./routes/comment.route");
+const path = require("path")
 const app = express()
+
+const __dirname = path.resolve();
 
 app.use(express.json())
 app.use(cookieParser())  
+
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter)
+
+app.use(express.static(path.join(__dirname, '/client/dist')))
+
+app.get('*', (req,res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+})
 
 connectDB()
     .then(() => {
@@ -26,7 +36,7 @@ connectDB()
         console.log("Database cannot be connected....")
     })
 
-
+    
    app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || "Internal Server Error";
