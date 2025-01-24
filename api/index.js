@@ -1,17 +1,17 @@
 const express = require("express");
-const monggose = require("mongoose");
+const mongoose = require("mongoose");
 const userRouter = require("./routes/user.route");
 const authRouter = require("./routes/auth.route");
 const cookieParser = require("cookie-parser");
 const postRouter = require("./routes/post.route");
 const commentRouter = require("./routes/comment.route");
 const dotenv = require("dotenv")
-
 const path = require("path");
+
 const app = express();
 dotenv.config()
 
-monggose
+mongoose
   .connect(process.env.MONGO)
   .then(() => {
     console.log("Database connection established..");
@@ -34,12 +34,11 @@ app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.static(path.join(__dirname, "../client/dist")));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
-
 
 
 app.use((err, req, res, next) => {
