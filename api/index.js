@@ -8,8 +8,6 @@ const commentRouter = require("./routes/comment.route");
 const path = require("path")
 const app = express()
 
-const __dirname = path.resolve();
-
 app.use(express.json())
 app.use(cookieParser())  
 
