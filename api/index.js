@@ -11,8 +11,22 @@ const path = require("path");
 const app = express();
 dotenv.config()
 
+monggose
+  .connect(process.env.MONGO)
+  .then(() => {
+    console.log("Database connection established..");
+  })
+  .catch(() => {
+    console.log("Database cannot be connected....");
+  });
+
+
 app.use(express.json());
 app.use(cookieParser());
+
+app.listen("5555", () => {
+    console.log("Server is running on port 5555!!");
+  });
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
@@ -25,17 +39,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
-monggose
-  .connect(process.env.MONGO)
-  .then(() => {
-    console.log("Database connection established..");
-    app.listen("5555", () => {
-      console.log("Server is running on port 5555!!");
-    });
-  })
-  .catch(() => {
-    console.log("Database cannot be connected....");
-  });
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
